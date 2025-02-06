@@ -1,5 +1,5 @@
 <template>
-  <div class="col-6">
+  <div class="col-3">
     <div class="sidebar bg-light">
       <div class="text-center my-4">
         <img src="@/assets/label.png" alt="Logo" class="logo" />
