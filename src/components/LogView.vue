@@ -15,7 +15,7 @@
 
       <!-- Log Window -->
       <div class="flex-grow-1">
-        <textarea ref="logWindow" class="form-control h-100" readonly v-model="logs"></textarea>
+        <textarea ref="logWindow" class="bg-black text-white form-control h-100" readonly v-model="logs"></textarea>
       </div>
 
       <div class="d-flex justify-content-end gap-2">
@@ -35,6 +35,9 @@ const logWindow = ref(null); // 用于滚动 textarea
 let logInterval = null; // 定时器 ID
 const logSwitchOn = ref(true); // 记录日志开关状态（默认开启）
 
+const MAX_LOG_LENGTH = 10000; // 设置最大日志字符数（可调整）
+const MAX_LOG_LINES = 1000; // 设置最大日志行数（可调整）
+
 // 监听 logs 变化并自动滚动
 watch(logs, async () => {
   await nextTick(); // 确保 DOM 已更新
@@ -49,6 +52,16 @@ const fetchLogs = async () => {
     if (!logSwitchOn.value) return; // 如果开关关闭，不获取日志
     const response = await axios.get("/api/logs"); // 假设你的 API 是 /api/logs
     logs.value += response.data + "\n"; // 追加新日志
+
+    // **当日志超过 MAX_LOG_LENGTH 或 MAX_LOG_LINES 时，覆盖日志**
+    if (logs.value.length > MAX_LOG_LENGTH) {
+      logs.value = logs.value.slice(-MAX_LOG_LENGTH); // 只保留最新 MAX_LOG_LENGTH 个字符
+    }
+
+    let logLines = logs.value.split("\n");
+    if (logLines.length > MAX_LOG_LINES) {
+      logs.value = logLines.slice(-MAX_LOG_LINES).join("\n"); // 只保留最新 MAX_LOG_LINES 行
+    }
   } catch (error) {
     console.error("日志获取失败:", error);
   }
