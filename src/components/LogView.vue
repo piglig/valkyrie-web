@@ -12,6 +12,9 @@
         <textarea class="form-control h-100"></textarea>
       </div>
 
+      <div class="d-flex justify-content-end gap-2">
+        <button class=" btn btn-primary my-2">log_switch</button>
+      </div>
 
     </div>
   </div>
