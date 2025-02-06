@@ -1,12 +1,11 @@
 <template>
-  <div class="container text-center">
-    <div class="row">
+  <div class="container-fluid vh-100">
+    <div class="row h-100">
       <SidebarOne />
       <LogView />
     </div>
   </div>
 
-  <div class="container-fluid bg-success">2222</div>
 </template>
 
 <script setup>
