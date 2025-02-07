@@ -1,0 +1,31 @@
+  /* Custom Bootstrap Checkbox */
+  .custom-checkbox .form-check-input {
+    width: 1.5rem; /* Bigger size */
+    height: 1.5rem;
+    border-radius: 50%; /* Makes it round */
+    border: 2px solid #007bff; /* Blue border */
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .custom-checkbox .form-check-input:checked {
+    background-color: #007bff; /* Blue background */
+    border-color: #0056b3;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+  }
+  
+  .custom-checkbox .form-check-input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.75);
+  }
+  
+  .custom-checkbox .form-check-label {
+    font-size: 1.1rem; /* Slightly bigger label */
+    margin-left: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+  }
+  
+  .custom-checkbox .form-check-input:checked + .form-check-label {
+    color: #007bff; /* Change text color on check */
+  }

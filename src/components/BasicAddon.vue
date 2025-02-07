@@ -3,6 +3,10 @@ import { ref, onMounted } from "vue";
 import { fetchTitles } from "@/api/title";
 
 defineProps({
+  basicTitle: {
+    type: String,
+    required: true,
+  },
   startMsg: {
     type: String,
     required: true,
@@ -44,25 +48,26 @@ Until より早い時間を記入してください
 
 <template>
     <div class="container mt-4">
+      <h3>{{ basicTitle }}</h3> 
       <form>
         <blockquote class="blockquote">
             <p id="prompt" class="mb-3 text-white fw-bold" v-text="promptText"></p>
         </blockquote>
         
 
-        <div class="form-row">
-            <div class="form-group col-md-3">
-                <label>{{ startMsg }}</label>
+        <div class="form-row mb-3">
+            <div class="form-group col-md-4">
+                <label class="mb">{{ startMsg }}</label>
                 <input type="text" class="form-control" placeholder="YYYYMMDDHHMMSS"/>
             </div>
         </div>
 
-        <div class="form-group col-md-3">
-            <label>{{ endMsg }}</label>
+        <div class="form-group col-md-4">
+            <label class="mb">{{ endMsg }}</label>
             <input type="text" class="form-control" placeholder="YYYYMMDDHHMMSS"/>
         </div>
 
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-3 mt-2">
             <label>Title</label>
             <div class="d-flex flex-wrap">
               <div v-for="title in titles" :key="title" class="form-check form-check-inline">
