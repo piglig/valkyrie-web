@@ -12,7 +12,7 @@
                 <div class="d-flex flex-wrap">
                     <div v-for="service in services" :key="service" class="form-check custom-checkbox form-check-inline">
                         <input type="checkbox" class="form-check-input" :id="service" />
-                        <label class="form-check-label" :for="service">{{ service }}</label>
+                        <label class="form-check-label" :for="service">{{ service.channel_name }}</label>
                     </div>
                 </div>
             </div>
@@ -20,15 +20,15 @@
             <!-- Main Layout Row (List on Left, Details on Right) -->
             <div class="row g-1">
               <!-- Left: Services List -->
-              <div class="col-md-2">
+              <div class="col-md-3">
                 <ul class="list-group">
                     <li v-for="service in services" 
                         :key="service" 
                         class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
                         :class="{ active: selectedItem === service }" 
                         @click="selectItem(service)">
-                        {{ service }}
-                        <input type="checkbox" class="form-check-input" :id="service" />
+                        {{ service.channel_name }}
+                        <input type="checkbox" class="form-check-input" :id="service.channel_tag" />
                     </li>
                     
                 </ul>
@@ -37,8 +37,11 @@
               <!-- Right: Details Panel -->
               <div class="col-md-8">
                 <div v-if="selectedItem" class="card p-3 shadow">
-                  <h3>{{ selectedItem }}</h3>
+                  <h3>{{ selectedItem.channel_name }}</h3>
                   <p>Detail information about {{ selectedItem }}</p>
+                  <div v-if="isPixiv(selectedItem)">
+                    <p>Pixiv Config: {{ selectedItem.config }}</p>
+                  </div>
                 </div>
                 <div v-else class="text-center text-muted">
                   <p>Select an item from the list</p>
@@ -55,24 +58,36 @@
   <script setup>
   import Sidebar from "@/components/Sidebar.vue";
   import BasicAddon from "@/components/BasicAddon.vue";
-  import { getChannels } from "@/api/channel";
+  import { getFormattedChannels } from "@/api/channel";
   import { ref, onMounted } from "vue";
   
-  const services = ref(["5ch", "Wiki"]);
+  const services = ref([]);
   const selectedItem = ref(null); // Stores the clicked item's details
+  const ChannelEnum = Object.freeze({
+    Twitter: 1,
+    Wiki: 2,
+    X: 3,
+    Pixiv: 4,
+    Youtube: 5,
+    Adjust: 6,
+  });
+
+  const isPixiv = (selectedItem) => {
+    return selectedItem.channel_tag === ChannelEnum.Pixiv;
+  };
 
   const getChannel = async () => {
   try {
-    services.value = await getChannels();
+    services.value = await getFormattedChannels();
+    if (services.value.length > 0) {
+        selectedItem.value = services.value[0];
+    }
   } catch (error) {
     console.error("Error fetching channels:", error);
   }
 };
 
 onMounted(() => {
-    if (services.value.length > 0) {
-        selectedItem.value = services.value[0];
-    }
     getChannel();
 });
 
