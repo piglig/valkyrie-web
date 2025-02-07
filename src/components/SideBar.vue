@@ -2,21 +2,33 @@
   <div class="col-sm-3">
     <div class="sidebar bg-light">
       <div class="text-center my-4">
-        <img src="@/assets/label.png" alt="Logo" class="logo" />
+        <img src="@/assets/label.png" alt="Logo" class="logo" @click="navigator('/')"/>
       </div>
-      <button v-for="btn in sidebarButtons" :key="btn" class="btn btn-primary w-100 my-2">
-        {{ btn }}
+      <button v-for="btn in sidebarButtons" :key="btn.name" class="btn btn-primary w-100 my-2"
+        @click="navigator(btn.route)">
+        {{ btn.name }}
       </button>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      sidebarButtons: ["data_extract", "manual_update", "auto_update", "organize_overwrite", "settings", "terminal"],
-    };
+<script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const sidebarButtons = [
+  { name: "data_extract", route: "/data-extract" },
+  { name: "manual_update", route: "/manual-update" },
+  { name: "auto_update", route: "/auto-update" },
+  { name: "organize_overwrite", route: "/organize-overwrite" },
+  { name: "settings", route: "/settings" },
+  { name: "terminal", route: "/terminal" }
+];
+
+const navigator = (route) => {
+  if (route) {
+    router.push(route);
   }
 };
 </script>
