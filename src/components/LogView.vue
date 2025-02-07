@@ -15,8 +15,16 @@
 
       <!-- Log Window -->
       <div class="flex-grow-1">
-        <textarea ref="logWindow" class="bg-black text-white form-control h-100" readonly v-model="logs"></textarea>
+        <textarea 
+          ref="logWindow" 
+          class="bg-black text-white form-control h-100"
+          readonly 
+          v-model="logs"
+          @mouseenter="isCursorInside = true" 
+          @mouseleave="isCursorInside = false"
+        ></textarea>
       </div>
+
 
       <div class="d-flex justify-content-end gap-2">
         <button class=" btn btn-primary my-2" @click="clearLog">clear_log</button>
@@ -30,37 +38,45 @@
 import { ref, onMounted, onUnmounted, watch, nextTick } from "vue";
 import axios from "axios";
 
-const logs = ref(""); // 存储日志内容
-const logWindow = ref(null); // 用于滚动 textarea
-let logInterval = null; // 定时器 ID
-const logSwitchOn = ref(true); // 记录日志开关状态（默认开启）
+const logs = ref(""); // 绑定到 textarea
+const logsArray = ref([]); // 存储日志数组
+const logWindow = ref(null);
+let logInterval = null;
+const logSwitchOn = ref(true); // 记录日志开关状态
+const isCursorInside = ref(false); // Track whether cursor is inside textarea
 
-const MAX_LOG_LENGTH = 10000; // 设置最大日志字符数（可调整）
-const MAX_LOG_LINES = 1000; // 设置最大日志行数（可调整）
+const MAX_LOG_LINES = 2000; // 设置最大日志行数
 
-// 监听 logs 变化并自动滚动
-watch(logs, async () => {
-  await nextTick(); // 确保 DOM 已更新
+// 监听 logsArray 的变化，并批量更新 logs
+watch(logsArray, async () => {
+  logs.value = logsArray.value.join("\n"); // 合并数组为字符串，减少 Vue 计算
+  await nextTick();
   if (logWindow.value) {
     logWindow.value.scrollTop = logWindow.value.scrollHeight;
   }
 });
 
-// 模拟从服务器获取日志的函数（你可以替换为真实 API）
+// 获取日志并优化性能
 const fetchLogs = async () => {
+  if (!logSwitchOn.value) return;
   try {
-    if (!logSwitchOn.value) return; // 如果开关关闭，不获取日志
-    const response = await axios.get("/api/logs"); // 假设你的 API 是 /api/logs
-    logs.value += response.data + "\n"; // 追加新日志
+    const response = await axios.get("/api/logs"); // 假设 API 返回的是新日志内容
+    const newLogs = response.data.split("\n"); // 按行拆分日志
+    logsArray.value.push(...newLogs); // 追加新日志到数组
 
-    // **当日志超过 MAX_LOG_LENGTH 或 MAX_LOG_LINES 时，覆盖日志**
-    if (logs.value.length > MAX_LOG_LENGTH) {
-      logs.value = logs.value.slice(-MAX_LOG_LENGTH); // 只保留最新 MAX_LOG_LENGTH 个字符
+    // **超过 MAX_LOG_LINES 时，丢弃旧日志**
+    if (logsArray.value.length > MAX_LOG_LINES) {
+      logsArray.value.splice(0, logsArray.value.length - MAX_LOG_LINES);
     }
 
-    let logLines = logs.value.split("\n");
-    if (logLines.length > MAX_LOG_LINES) {
-      logs.value = logLines.slice(-MAX_LOG_LINES).join("\n"); // 只保留最新 MAX_LOG_LINES 行
+    // **Update logs.value explicitly to force Vue reactivity**
+    logs.value = logsArray.value.join("\n");
+    // **Auto-scroll only if cursor is outside textarea**
+    if (!isCursorInside.value) {
+      await nextTick();
+      if (logWindow.value) {
+        logWindow.value.scrollTop = logWindow.value.scrollHeight;
+      }
     }
   } catch (error) {
     console.error("日志获取失败:", error);
@@ -71,25 +87,26 @@ const fetchLogs = async () => {
 const toggleLogSwitch = () => {
   logSwitchOn.value = !logSwitchOn.value;
   if (!logSwitchOn.value && logInterval) {
-    clearInterval(logInterval); // 关闭日志获取
+    clearInterval(logInterval); // 停止日志拉取
     logInterval = null;
   } else if (logSwitchOn.value) {
-    logInterval = setInterval(fetchLogs, 2000); // 重新启动日志获取
+    logInterval = setInterval(fetchLogs, 2000);
   }
 };
 
 // 清空日志
 const clearLog = () => {
+  logsArray.value = [];
   logs.value = "";
 };
 
 // 组件加载时启动定时拉取日志
 onMounted(() => {
-  fetchLogs(); // 页面加载时立即获取一次
-  logInterval = setInterval(fetchLogs, 2000); // 每 2 秒获取一次日志
+  fetchLogs(); // 立即获取一次日志
+  logInterval = setInterval(fetchLogs, 2000);
 });
 
-// 组件卸载时清除定时器，防止内存泄漏
+// 组件卸载时清除定时器
 onUnmounted(() => {
   if (logInterval) {
     clearInterval(logInterval);
