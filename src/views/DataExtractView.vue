@@ -22,7 +22,10 @@
                         :class="{ active: selectedItem === service }" 
                         @click="selectItem(service)">
                         {{ service.channel_name }}
-                        <input type="checkbox" class="form-check-input" :id="service.channel_tag" />
+                        <input type="checkbox" 
+                          class="form-check-input" 
+                          :id="service.channel_tag" 
+                          v-model="service.isChecked" />
                     </li>
                     
                 </ul>
@@ -38,7 +41,10 @@
                       <label>Age Limit </label>
                       <div class="d-flex flex-wrap">
                         <div class="form-check form-check-inline" v-for="option in getFrontEnd(selectedItem).pixiv_age_limit" :key="option.tag">
-                          <input type="checkbox" class="form-check-input" :id="'pixiv-age-' + option.tag" />
+                          <input type="checkbox" 
+                            class="form-check-input" 
+                            :id="'pixiv-age-' + option.tag"
+                            v-model="selectedItem.pixiv_age_limit[option.tag]" />
                           <label class="form-check-label" :for="'pixiv-age-' + option.tag">{{ option.text }}</label>
                         </div>
                       </div>
@@ -100,7 +106,15 @@ onMounted(() => {
 // Handle item selection
 const selectItem = (item) => {
   selectedItem.value = item;
+
+  if (isPixiv(item)) {
+    // Ensure `pixiv_age_limit` exists before accessing `checkedOptions`
+    if (!selectedItem.value.pixiv_age_limit) {
+      selectedItem.value.pixiv_age_limit = {};
+    }
+  }
 };
+
 </script>
   
 <style scoped src="@/assets/check_box.css">
