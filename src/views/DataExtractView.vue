@@ -9,12 +9,6 @@
           <div class="container mt-2">
             <div id="services" class="form-group mb-2">
                 <label>Services</label>
-                <div class="d-flex flex-wrap">
-                    <div v-for="service in services" :key="service" class="form-check custom-checkbox form-check-inline">
-                        <input type="checkbox" class="form-check-input" :id="service" />
-                        <label class="form-check-label" :for="service">{{ service.channel_name }}</label>
-                    </div>
-                </div>
             </div>
 
             <!-- Main Layout Row (List on Left, Details on Right) -->
@@ -39,8 +33,16 @@
                 <div v-if="selectedItem" class="card p-3 shadow">
                   <h3>{{ selectedItem.channel_name }}</h3>
                   <p>Detail information about {{ selectedItem }}</p>
-                  <div v-if="isPixiv(selectedItem)">
-                    <p>Pixiv Config: {{ selectedItem.config }}</p>
+
+                  <div v-if="isPixiv(selectedItem)" class="form-group">
+                      <label>Age Limit </label>
+                      <div class="d-flex flex-wrap">
+                        <div class="form-check form-check-inline" v-for="option in getFrontEnd(selectedItem).pixiv_age_limit" :key="option.tag">
+                          <input type="checkbox" class="form-check-input" :id="'pixiv-age-' + option.tag" />
+                          <label class="form-check-label" :for="'pixiv-age-' + option.tag">{{ option.text }}</label>
+                        </div>
+                      </div>
+                      
                   </div>
                 </div>
                 <div v-else class="text-center text-muted">
@@ -74,6 +76,10 @@
 
   const isPixiv = (selectedItem) => {
     return selectedItem.channel_tag === ChannelEnum.Pixiv;
+  };
+
+  const getFrontEnd = (selectedItem) => {
+    return selectedItem?.config?.front_end || {};
   };
 
   const getChannel = async () => {
