@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import DataExtractView from '@/views/DataExtractView.vue'
+import ManualUpdateView from '@/views/ManualUpdateView.vue'
+import AutoUpdateView from '@/views/AutoUpdateView.vue'
+import SettingView from '@/views/SettingView.vue'
+import path from 'path'
 
 const routes = [
   {
@@ -10,7 +14,19 @@ const routes = [
   },
   {
     path: '/data-extract',
-    component: DataExtractView
+    component: DataExtractView,
+  },
+  {
+    path: '/manual-update',
+    component: ManualUpdateView,
+  },
+  {
+    path: '/auto-update',
+    component: AutoUpdateView,
+  },
+  {
+    path: '/settings',
+    component: SettingView,
   },
   {
     path: '/about',
