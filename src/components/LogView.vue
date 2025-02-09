@@ -70,10 +70,6 @@ const fetchLogs = async () => {
       logsArray.value.push(...newLogs); // 追加新日志到数组
     }
 
-    // const response = await axios.get("/api/logs"); // 假设 API 返回的是新日志内容
-    // const newLogs = response.data.split("\n"); // 按行拆分日志
-    // logsArray.value.push(...newLogs); // 追加新日志到数组
-
     // **超过 MAX_LOG_LINES 时，丢弃旧日志**
     if (logsArray.value.length > MAX_LOG_LINES) {
       logsArray.value.splice(0, logsArray.value.length - MAX_LOG_LINES);
