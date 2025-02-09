@@ -64,7 +64,7 @@ watch(logsArray, async () => {
 const fetchLogs = async () => {
   if (!logSwitchOn.value) return;
   try {
-    const eventSource = new EventSource(import.meta.env.VITE_BASE_URL +"/stream/logs");
+    const eventSource = new EventSource(import.meta.env.VITE_BASE_URL +"/logs/stream");
     eventSource.onmessage = (event) => {
       const newLogs = event.data.split("\n"); // 按行拆分日志
       logsArray.value.push(...newLogs); // 追加新日志到数组
