@@ -22,5 +22,11 @@ export default defineConfig(({ mode }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       },
     },
+
+    server: {
+      // host: '127.0.0.1',
+      open: true, // Opens browser automatically
+      // cors: true, // Enable CORS
+    }
   }
 })
