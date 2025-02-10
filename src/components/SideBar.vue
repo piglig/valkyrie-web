@@ -97,6 +97,18 @@ const fetchDropdownItems = async () => {
   try {
     const serviceData = await getFormattedChannels();
 
+    // const serviceData = [
+    //   {
+    //     channel_tag: 1,
+    //     channel_name: "Twitter",
+    //     route: "/manual-update/twitter"
+    //   },
+    //   {
+    //     channel_tag: 2,
+    //     channel_name: "Wiki",
+    //     route: "/manual-update/wiki"
+    //   }
+    // ]
     dropdownItems.value.manual_update = serviceData;
     dropdownItems.value.auto_update = serviceData;
   } catch (error) {
