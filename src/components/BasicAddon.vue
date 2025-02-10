@@ -55,16 +55,26 @@ Until より早い時間を記入してください
         </blockquote>
         
 
-        <div class="form-row mb-3">
-            <div class="form-group col-md-4">
-                <label class="mb">{{ startMsg }}</label>
-                <input type="text" class="form-control" placeholder="YYYYMMDDHHMMSS"/>
-            </div>
-        </div>
+        <!-- Input row with labels and tilde perfectly centered -->
+        <div class="row mb-3">
+            <div class="d-flex align-items-center w-50">
+                <!-- Start Input -->
+                <div class="d-flex flex-column flex-grow-1">
+                    <label class="mb-1">{{ startMsg }}</label>
+                    <input type="datetime-local" class="form-control"/>
+                </div>
 
-        <div class="form-group col-md-4">
-            <label class="mb">{{ endMsg }}</label>
-            <input type="text" class="form-control" placeholder="YYYYMMDDHHMMSS"/>
+                <!-- Tilde (~) perfectly centered -->
+                <div class="d-flex align-items-center justify-content-center px-3 fw-bold" style="height: 38px;">
+                    ~
+                </div>
+
+                <!-- End Input -->
+                <div class="d-flex flex-column flex-grow-1">
+                  <label class="mb-1">{{ endMsg }}</label>
+                  <input type="datetime-local" class="form-control"/>
+                </div>
+            </div>
         </div>
 
         <div class="form-group col-md-3 mt-2">

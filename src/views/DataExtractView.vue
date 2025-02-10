@@ -55,6 +55,9 @@
                   <p>Select an item from the list</p>
                 </div>
               </div>
+
+              <KeywordView />
+              <TestView />
             </div>
 
           </div>
@@ -66,6 +69,8 @@
   <script setup>
   import Sidebar from "@/components/Sidebar.vue";
   import BasicAddon from "@/components/BasicAddon.vue";
+
+  import KeywordView from "@/views/KeywordView.vue";
   import { getFormattedChannels } from "@/api/channel";
   import { ref, onMounted } from "vue";
   
