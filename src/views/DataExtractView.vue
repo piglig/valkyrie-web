@@ -3,7 +3,7 @@
       <div class="row h-100">
         <Sidebar />
         <h4 id="slogan" class="col-sm-2 text-center align-self-center">Data Extraction Settings</h4>
-        <div id="data-extract" class="col-sm-7 p-3 border bg-secondary text-white">
+        <div id="data-extract" class="col-sm-8 p-3 border bg-secondary text-white">
         <BasicAddon basicTitle="Data Extraction" startMsg="Since" endMsg="Until" />
             
           <div class="container mt-2">
@@ -57,7 +57,6 @@
               </div>
 
               <KeywordView />
-              <TestView />
             </div>
 
           </div>

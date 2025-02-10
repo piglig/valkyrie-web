@@ -2,61 +2,9 @@
     <div class="container-fluid h-100">
       <div class="row h-100">
         <Sidebar />
-        <h4 id="slogan" class="col-sm-2 text-center align-self-center">Data Extraction Settings</h4>
-        <div id="data-extract" class="col-sm-7 p-3 border bg-secondary text-white">
-        <BasicAddon basicTitle="Data Extraction" startMsg="Since" endMsg="Until" />
-          <div class="container mt-2">
-            <div id="services" class="form-group mb-2">
-                <label>Services</label>
-            </div>
-
-            <!-- Main Layout Row (List on Left, Details on Right) -->
-            <div class="row g-1">
-              <!-- Left: Services List -->
-              <div class="col-md-3">
-                <ul class="list-group">
-                    <li v-for="service in services" 
-                        :key="service" 
-                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-                        :class="{ active: selectedItem === service }" 
-                        @click="selectItem(service)">
-                        {{ service.channel_name }}
-                        <input type="checkbox" 
-                          class="form-check-input" 
-                          :id="service.channel_tag" 
-                          v-model="service.isChecked" />
-                    </li>
-                    
-                </ul>
-              </div>
-
-              <!-- Right: Details Panel -->
-              <div class="col-md-8">
-                <div v-if="selectedItem" class="card p-3 shadow">
-                  <h3>{{ selectedItem.channel_name }}</h3>
-                  <p>Detail information about {{ selectedItem }}</p>
-
-                  <div v-if="isPixiv(selectedItem)" class="form-group">
-                      <label>Age Limit </label>
-                      <div class="d-flex flex-wrap">
-                        <div class="form-check form-check-inline" v-for="option in getFrontEnd(selectedItem).pixiv_age_limit" :key="option.tag">
-                          <input type="checkbox" 
-                            class="form-check-input" 
-                            :id="'pixiv-age-' + option.tag"
-                            v-model="selectedItem.pixiv_age_limit[option.tag]" />
-                          <label class="form-check-label" :for="'pixiv-age-' + option.tag">{{ option.text }}</label>
-                        </div>
-                      </div>
-                      
-                  </div>
-                </div>
-                <div v-else class="text-center text-muted">
-                  <p>Select an item from the list</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
+        <ServiceBar />
+        <div class="col-sm-8 p-3 border bg-secondary text-white">
+          <BasicAddon basicTitle="Manual Update" startMsg="Since" endMsg="Until" />
         </div>
       </div>
     </div>
@@ -64,6 +12,7 @@
   
   <script setup>
   import Sidebar from "@/components/Sidebar.vue";
+  import ServiceBar from "@/views/ServiceBar.vue";
   import BasicAddon from "@/components/BasicAddon.vue";
   import { getFormattedChannels } from "@/api/channel";
   import { ref, onMounted } from "vue";

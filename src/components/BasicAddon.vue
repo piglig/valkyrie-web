@@ -24,7 +24,6 @@ defineProps({
 
 const titles = ref(["BA", "AK"]);
 
-
 const getTitles = async () => {
   try {
     titles.value = await fetchTitles();
@@ -77,7 +76,7 @@ Until より早い時間を記入してください
             </div>
         </div>
 
-        <div class="form-group col-md-3 mt-2">
+        <div class="form-group col-sm-3 mt-2">
             <label>Title</label>
             <div class="d-flex flex-wrap">
               <div v-for="title in titles" :key="title" class="form-check form-check-inline">

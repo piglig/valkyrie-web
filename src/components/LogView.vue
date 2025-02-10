@@ -1,5 +1,5 @@
 <template>
-  <div class="col-sm-9 p3 border d-flex flex-column h-100">
+  <div class="col-sm-10 p3 border d-flex flex-column h-100">
     <div class="bg-light p-2 d-flex flex-column flex-grow-1">
       <div class="d-flex flex-row gap-2 mb-3 justify-content-between">
         <div class="d-flex gap-2">
