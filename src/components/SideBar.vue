@@ -17,7 +17,7 @@
             </a>
 
             <!-- Dropdown Items -->
-            <ul class="dropdown-menu" :class="{ show: activeDropdown === btn.name }">
+            <ul class="dropdown-menu" :class="{ show: isDropdownActive(btn.name) }">
               <li class="dropdown" v-for="service in dropdownItems[btn.name]" :key="service.channel_tag">
                 <a class="dropdown-item"
                  :class="{ active: isActive(service.route) }"
