@@ -21,7 +21,7 @@
               <li class="dropdown" v-for="service in dropdownItems[btn.name]" :key="service.channel_tag">
                 <a class="dropdown-item"
                  :class="{ active: isActive(service.route) }"
-                 @click="navigator(service.route)">
+                 @click="navigator(btn.route, service.channel_name)">
                   {{ service.channel_name }}
                 </a>
               </li>
@@ -64,12 +64,17 @@ const sidebarButtons = [
   { name: "terminal", route: "/terminal" }
 ];
 
-const navigator = (route) => {
-  if (route) {
-    router.push(route);
-    activeDropdown.value = null;
-  }
+const navigator = (parentRoute, serviceName = null) => {
+  const routePath = serviceName ? `${parentRoute}/${serviceName}` : parentRoute;
+  console.log("Navigating to:", routePath);
+  router.push(routePath).catch(err => {
+    if (err.name !== "NavigationDuplicated") {
+      console.error(err);
+    }
+  });
+  activeDropdown.value = null;
 };
+
 
 const isDropdownActive = (dropdownName) => {
   // 如果当前路径与 dropdownName 的 route 匹配，也应当高亮
@@ -80,7 +85,6 @@ const isDropdownActive = (dropdownName) => {
 
 // Function to check if a button should be marked as active
 const isActive = (buttonRoute) => {
-  console.log(route.path, buttonRoute);
   return route.path === buttonRoute;
 };
 

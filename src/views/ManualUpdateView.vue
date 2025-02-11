@@ -2,7 +2,8 @@
     <div class="container-fluid h-100">
       <div class="row h-100">
         <Sidebar />
-        <ServiceBar />
+        <!-- <ServiceBar /> -->
+         <router-view></router-view>
         <div class="col-sm-8 p-3 border bg-secondary text-white">
           <BasicAddon basicTitle="Manual Update" startMsg="Since" endMsg="Until" />
         </div>
