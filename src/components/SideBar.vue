@@ -21,7 +21,7 @@
               <li class="dropdown" v-for="service in dropdownItems[btn.name]" :key="service.channel_tag">
                 <a class="dropdown-item"
                  :class="{ active: isActive(service.route) }"
-                 @click="navigator(btn.route, service.channel_name)">
+                 @click="navigator(btn.route, service)">
                   {{ service.channel_name }}
                 </a>
               </li>
@@ -64,16 +64,17 @@ const sidebarButtons = [
   { name: "terminal", route: "/terminal" }
 ];
 
-const navigator = (parentRoute, serviceName = null) => {
-  const routePath = serviceName ? `${parentRoute}/${serviceName}` : parentRoute;
+const navigator = (parentRoute, service = null) => {
+  const routePath = service ? `${parentRoute}/${service.channel_name}` : parentRoute;
   console.log("Navigating to:", routePath);
-  router.push(routePath).catch(err => {
+  router.push({ path: routePath, query: { service_name: service?.channel_name, service_tag: service?.channel_tag } }).catch(err => {
     if (err.name !== "NavigationDuplicated") {
       console.error(err);
     }
   });
   activeDropdown.value = null;
 };
+
 
 
 const isDropdownActive = (dropdownName) => {
@@ -85,6 +86,7 @@ const isDropdownActive = (dropdownName) => {
 
 // Function to check if a button should be marked as active
 const isActive = (buttonRoute) => {
+  console.log(route.path, buttonRoute);
   return route.path === buttonRoute;
 };
 

@@ -2,10 +2,8 @@
     <div class="container-fluid h-100">
       <div class="row h-100">
         <Sidebar />
-        <!-- <ServiceBar /> -->
-         <router-view></router-view>
-        <div class="col-sm-8 p-3 border bg-secondary text-white">
-          <BasicAddon basicTitle="Manual Update" startMsg="Since" endMsg="Until" />
+        <div class="col-sm-10 p-3 border bg-secondary text-white">
+          <router-view></router-view>
         </div>
       </div>
     </div>
@@ -14,7 +12,6 @@
   <script setup>
   import Sidebar from "@/components/Sidebar.vue";
   import ServiceBar from "@/views/ServiceBar.vue";
-  import BasicAddon from "@/components/BasicAddon.vue";
   import { getFormattedChannels } from "@/api/channel";
   import { ref, onMounted } from "vue";
   
@@ -67,8 +64,8 @@ const selectItem = (item) => {
 </script>
   
 <style scoped src="@/assets/check_box.css">
-  .form-group {
-    max-width: 500px;
-  }
+.form-group {
+  max-width: 500px;
+}
 </style>
   

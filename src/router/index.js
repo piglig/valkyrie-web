@@ -4,7 +4,7 @@ import DataExtractView from '@/views/DataExtractView.vue'
 import ManualUpdateView from '@/views/ManualUpdateView.vue'
 import AutoUpdateView from '@/views/AutoUpdateView.vue'
 import SettingView from '@/views/SettingView.vue'
-import TestView from '@/views/manual_update/Test.vue'
+import MainView from '@/views/manual_update/MainView.vue'
 import path from 'path'
 
 const routes = [
@@ -23,7 +23,7 @@ const routes = [
     children: [
       {
         path: ':service',
-        component: TestView,
+        component: MainView,
         props: true
       }
     ]
