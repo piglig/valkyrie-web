@@ -4,8 +4,8 @@
         <div v-if="isNormalChannel(serviceTag)">
           <BasicAddon :basicTitle="`手動更新・${serviceName} ${serviceTag}`" startMsg="Since" endMsg="Until" />
         </div>
-        <div v-else>
-          <h1>{{ serviceName }}</h1>
+        <div v-else-if="serviceTag === CHANNEL_ENUM.X">
+          <h1>111</h1>
         </div>
     </div>
   </div>
@@ -22,7 +22,6 @@
   const serviceTag = Number(route.query.service_tag);
 
   const isNormalChannel = function (serviceTag) {
-    console.log(serviceTag, typeof(serviceTag));
     return serviceTag === CHANNEL_ENUM.FiveCh || serviceTag === CHANNEL_ENUM.Wiki || 
       serviceTag === CHANNEL_ENUM.Youtube || serviceTag === CHANNEL_ENUM.Pixiv || serviceTag === CHANNEL_ENUM.Adjust;
   };
