@@ -13,7 +13,7 @@
             :class="{ active: isDropdownActive(btn.name) }" 
               @click="toggleDropdown(btn.name)"
             id="dropdownMenuButton">
-              {{ btn.name }}
+              <strong>{{ btn.name }}</strong>
             </a>
 
             <!-- Dropdown Items -->
@@ -33,7 +33,7 @@
              :class="{ active: isActive(btn.route) }"
              @click="navigator(btn.route)"
              >
-            {{ btn.name }}
+             <strong>{{ btn.name }}</strong>
           </a>
         </li>
       </ul>
