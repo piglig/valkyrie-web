@@ -2,6 +2,8 @@
   <div class="col-2 h-100 p-0">
     <div class="sidebar bg-light">
       <div class="my-2 align-self-center">
+        <span class="text-light" v-if="username">Welcome, {{ username }}</span>
+        <h3>{{ username }}</h3>
         <img src="@/assets/label.png" alt="Logo" class="logo" @click="navigator('/')"/>
       </div>
 
@@ -42,6 +44,7 @@
 </template>
 
 <script setup>
+import {jwtDecode} from "jwt-decode";
 import { useRouter, useRoute } from "vue-router";
 import { getFormattedChannels } from "@/api/channel";
 import { ref, onMounted } from "vue";
@@ -122,7 +125,25 @@ const fetchDropdownItems = async () => {
   }
 }
 
+const username = ref(null);
 
+const getUsernameFromToken = () => {
+  const token = localStorage.getItem("jwt_token");
+  if (!token) return null;
+
+  try {
+    const decodedToken = jwtDecode(token);
+    console.log("Decoded Token:", decodedToken);
+    return decodedToken.username || decodedToken.email || null;
+  } catch (error) {
+    console.error("Invalid Token:", error);
+    return null;
+  }
+};
+
+onMounted(() => {
+  username.value = getUsernameFromToken();
+});
 // Fetch dropdown data when component is mounted
 onMounted(fetchDropdownItems);
 </script>
