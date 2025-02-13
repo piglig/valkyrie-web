@@ -16,6 +16,10 @@ axiosInstance.interceptors.request.use(
         headers: config.headers,
         data: config.data || "No body",
       });
+      const token = localStorage.getItem("jwt_token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
       return config;
     },
     (error) => {
@@ -40,6 +44,11 @@ axiosInstance.interceptors.request.use(
         message: error.message,
         response: error.response?.data || "No response data",
       });
+      if (error.response?.status === 401) {
+        alert("Session expired. Please log in again.");
+        localStorage.removeItem("jwt_token"); // Clear JWT token
+        window.location.href = "/login"; // Redirect to login page
+      }
       return Promise.reject(error);
     }
   );

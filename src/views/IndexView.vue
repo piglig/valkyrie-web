@@ -64,12 +64,17 @@
   
   <script setup>
   import { ref } from "vue";
+  import { useRouter } from "vue-router";
+  import { login } from "@/api/login";
+
+  const router = useRouter();
   
   const email = ref("");
   const password = ref("");
   const rememberMe = ref(false);
   const showPassword = ref(false);
   const loading = ref(false);
+  const errorMessage = ref("");
   
   // Toggle Password Visibility
   const togglePassword = () => {
@@ -82,14 +87,10 @@
     errorMessage.value = "";
 
     try {
-        const response = await fetch(import.meta.env.VITE_BASE_URL + "/login", {
-            username: email.value,
-            password: password.value,
-        })
+        const response = await login(email.value, password.value)
 
-        // Store JWT in localStorage or sessionStorage
+      // Store JWT in localStorage or sessionStorage
       localStorage.setItem("jwt_token", response.token);
-      alert("Login successful!");
       
       // Redirect to home
       router.push("/home");
