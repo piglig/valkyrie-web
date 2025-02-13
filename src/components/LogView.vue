@@ -40,7 +40,6 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, watch, nextTick } from "vue";
-import axios from "axios";
 
 const logs = ref(""); // 绑定到 textarea
 const logsArray = ref([]); // 存储日志数组

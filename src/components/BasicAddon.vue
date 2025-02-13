@@ -1,6 +1,6 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { fetchTitles } from "@/api/title";
+import { ref } from "vue";
+import TitleSelect from "@/components/Title.vue";
 
 defineProps({
   basicTitle: {
@@ -21,20 +21,6 @@ defineProps({
       default: 16,
   }
 })
-
-const titles = ref(["BA", "AK"]);
-
-const getTitles = async () => {
-  try {
-    titles.value = await fetchTitles();
-  } catch (error) {
-    console.error("Error fetching titles:", error);
-  }
-};
-
-onMounted(() => {
-    getTitles();
-});
 
 // Define the multi-line text as a variable
 const promptText = ref(`いつから
@@ -77,13 +63,7 @@ Until より早い時間を記入してください
         </div>
 
         <div class="form-group col-sm-3 mt-2">
-            <label>Title</label>
-            <div class="d-flex flex-wrap">
-              <div v-for="title in titles" :key="title" class="form-check form-check-inline">
-                <input type="checkbox" class="form-check-input" :id="title" />
-                <label class="form-check-label" :for="title">{{ title }}</label>
-              </div>
-            </div>
+            <TitleSelect></TitleSelect>
         </div>
       </form>
     </div>

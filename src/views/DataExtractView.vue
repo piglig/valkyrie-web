@@ -52,7 +52,7 @@
                     </div>
                     </div>
                     <div v-else class="text-center text-muted">
-                    <p>Select an item from the list</p>
+                      <p>Select an item from the list</p>
                     </div>
                 </div>
 
@@ -71,7 +71,7 @@
   import Sidebar from "@/components/Sidebar.vue";
   import BasicAddon from "@/components/BasicAddon.vue";
 
-  import KeywordView from "@/views/KeywordView.vue";
+  import KeywordView from "@/views/data_extract/KeywordView.vue";
   import { getFormattedChannels } from "@/api/channel";
   import { ref, onMounted } from "vue";
   

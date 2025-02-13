@@ -5,7 +5,7 @@
           <BasicAddon :basicTitle="`手動更新・${serviceName} ${serviceTag}`" startMsg="Since" endMsg="Until" />
         </div>
         <div v-else-if="serviceTag === CHANNEL_ENUM.X">
-          <h1>111</h1>
+          <XView />
         </div>
     </div>
   </div>
@@ -15,6 +15,7 @@
   import { CHANNEL_ENUM } from "@/constant.js";
   import { useRoute } from "vue-router";
   import BasicAddon from "@/components/BasicAddon.vue";
+  import XView from "@/views/manual_update/XView.vue";
 
 
   const route = useRoute();

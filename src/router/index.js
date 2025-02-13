@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import DataExtractView from '@/views/DataExtractView.vue'
-import ManualUpdateView from '@/views/ManualUpdateView.vue'
-import AutoUpdateView from '@/views/AutoUpdateView.vue'
+import ManualUpdateView from '@/views/manual_update/ManualUpdateView.vue'
+import AutoUpdateView from '@/views/auto_update/AutoUpdateView.vue'
 import SettingView from '@/views/SettingView.vue'
-import MainView from '@/views/manual_update/MainView.vue'
+import ManualMainView from '@/views/manual_update/MainView.vue'
+import AutoMainView from '@/views/auto_update/MainView.vue'
 import path from 'path'
 
 const routes = [
@@ -23,7 +24,7 @@ const routes = [
     children: [
       {
         path: ':service',
-        component: MainView,
+        component: ManualMainView,
         props: true
       }
     ]
@@ -31,6 +32,13 @@ const routes = [
   {
     path: '/auto-update',
     component: AutoUpdateView,
+    children: [
+      {
+        path: ':service',
+        component: AutoMainView,
+        props: true
+      }
+    ]
   },
   {
     path: '/settings',

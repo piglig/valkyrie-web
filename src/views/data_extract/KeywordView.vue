@@ -43,8 +43,9 @@
             </blockquote>
         </div>
 
-        <textarea class="form-control" :id="'textarea-' + id"  v-model="text" 
-        :placeholder="placeholder"></textarea>
+        <!-- Unique text area for each selected checkbox -->
+        <textarea class="form-control" :id="'textarea-' + id"  v-model="textValues[id]" 
+          :placeholder="placeholder"></textarea>
       </div>
     </div>
 
@@ -58,6 +59,7 @@
 
     const items = ref([]);
     const selectedItems = ref([]);
+    const textValues = ref({}); // Object to store text values for each checkbox
     const details = ref({});
     const hoveredItem = ref(null);
     const tooltipStyle = ref({ top: "0px", left: "0px" });
@@ -82,6 +84,13 @@
     const getItemName = (way_tag) => {
         const item = items.value.find((item) => item.way_tag === way_tag);
         return item ? item.way_name : "Unknown";
+    };
+
+    // Ensure each selected checkbox has a corresponding text field
+    const initializeTextField = (id) => {
+        if (!textValues.value[id]) {
+            textValues.value[id] = "";
+        }
     };
 
     // Show tooltip with dynamic positioning

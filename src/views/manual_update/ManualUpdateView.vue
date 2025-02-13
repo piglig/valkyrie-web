@@ -11,23 +11,15 @@
   
   <script setup>
   import Sidebar from "@/components/Sidebar.vue";
-  import ServiceBar from "@/views/ServiceBar.vue";
+  import { CHANNEL_ENUM } from "@/constant.js";
   import { getFormattedChannels } from "@/api/channel";
   import { ref, onMounted } from "vue";
   
   const services = ref([]);
   const selectedItem = ref(null); // Stores the clicked item's details
-  const ChannelEnum = Object.freeze({
-    Twitter: 1,
-    Wiki: 2,
-    X: 3,
-    Pixiv: 4,
-    Youtube: 5,
-    Adjust: 6,
-  });
 
   const isPixiv = (selectedItem) => {
-    return selectedItem.channel_tag === ChannelEnum.Pixiv;
+    return selectedItem.channel_tag === CHANNEL_ENUM.Pixiv;
   };
 
   const getFrontEnd = (selectedItem) => {
@@ -48,18 +40,6 @@
 onMounted(() => {
     getChannel();
 });
-
-// Handle item selection
-const selectItem = (item) => {
-  selectedItem.value = item;
-
-  if (isPixiv(item)) {
-    // Ensure `pixiv_age_limit` exists before accessing `checkedOptions`
-    if (!selectedItem.value.pixiv_age_limit) {
-      selectedItem.value.pixiv_age_limit = {};
-    }
-  }
-};
 
 </script>
   
